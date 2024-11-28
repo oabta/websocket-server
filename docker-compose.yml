@@ -7,7 +7,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - reverb
+      - reverb:/home/oabta
     networks:
       reverb:
     env_file:
