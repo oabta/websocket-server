@@ -1,0 +1,33 @@
+services:
+  reverb:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    volumes:
+      - reverb
+    networks:
+      reverb:
+    env_file:
+      - .env
+
+  postgres:
+    image: "postgres:alpine"
+    restart: unless-stopped
+    expose:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: reverb
+      POSTGRES_PASSWORD: reverb
+      POSTGRES_DB: reverb
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      reverb:
+
+networks:
+  reverb:
+volumes:
+  reverb:
