@@ -1,4 +1,18 @@
 services:
+  migrate.reverb:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - db.reverb
+    volumes:
+      - reverb:/home/oabta
+    networks:
+      reverb:
+    env_file:
+      - .env
+    command: bash -c "./script/wait-for-it db.reverb:5432 && yes Y | php artisan migrate --force"
+
   reverb:
     build:
       context: ./
@@ -7,29 +21,29 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      - db.reverb
     volumes:
       - reverb:/home/oabta
     networks:
       reverb:
     env_file:
       - .env
+    command: bash -c "./script/wait-for-it db.reverb:5432 && php artisan  reverb:start"
 
-  postgres:
+  db.reverb:
     image: "postgres:alpine"
     restart: unless-stopped
     expose:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: reverb
-      POSTGRES_PASSWORD: reverb
-      POSTGRES_DB: reverb
+    env_file:
+      - .env
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - db.reverb:/var/lib/postgresql/data
     networks:
       reverb:
 
 networks:
   reverb:
 volumes:
+  db.reverb:
   reverb:

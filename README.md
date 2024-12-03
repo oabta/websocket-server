@@ -13,15 +13,14 @@ Before you get started, ensure you have the following installed:
 # Installation
 
 ```
-git clone https://github.com/oabta/websocket-server.git
-cd websocket-server
-cp .env.example .env
-```
-
-Review `.env` to suit your production requirements.
-
-Then run websocket server:
+git clone https://github.com/oabta/websocket-server.git reverb
+cd reverb
+./script/setup
 
 ```
- docker compose up
+
+Run server:
+
+```
+ ./script/setup
 ```

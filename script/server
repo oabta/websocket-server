@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# is used to start the application and workers.
+
+set -e
+
+cd "$(dirname "$0")/.."
+script/update
+
+docker compose up reverb
