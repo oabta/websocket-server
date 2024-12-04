@@ -22,5 +22,5 @@ cd reverb
 Run server:
 
 ```
- ./script/setup
+ ./script/server
 ```
